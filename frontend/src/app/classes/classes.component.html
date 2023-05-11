@@ -1,0 +1,20 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Sl No</th>
+            <th scope="col">Class Name</th>
+            <th scope="col">Head</th>
+            <th scope="col">Floor</th>
+            <th scope="col">Total Students</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let class of classList.classes;let i=index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{class?.name}}</td>
+            <td>{{class?.head}}</td>
+            <td>{{class?.floor}}</td>
+            <td>@mdo</td>
+        </tr>
+    </tbody>
+</table>
