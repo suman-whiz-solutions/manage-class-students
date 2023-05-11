@@ -11,13 +11,13 @@ export class GraphqlService {
 
   makeQuery(queryData: any): QueryRef<any> {
     return this.apollo.watchQuery({
-      query: gql`${queryData}`
+      query: gql`query ${queryData}`
     })
   }
 
   makeMutation(mutateData: any, variables: any): Promise<any> {
     return lastValueFrom(this.apollo.mutate({
-      mutation: gql`${mutateData}`,
+      mutation: gql`mutation ${mutateData}`,
       variables: variables
     }))
   }

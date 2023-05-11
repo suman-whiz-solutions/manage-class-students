@@ -1,10 +1,29 @@
+<div class="header row">
+    <div class="col-sm-3">
+        Students
+        <button type="button" class="btn btn-outline-primary" (click)="showAddStudentSection()">Add New</button>
+    </div>
+    <div class="col-sm-4">
+        <form [formGroup]="filterFormGroup">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <!-- <span class="input-group-text" id="basic-addon3">https://example.com/users/</span> -->
+                    <select class="form-control" name="filterBy" formControlName="filterBy">
+                        <option value="">Filter By</option>
+                        <option value="name">Name</option>
+                    </select>
+                </div>
+                <input type="text" name="filterValue" formControlName="filterValue" placeholder="Filter Value" class="form-control" id="basic-url"
+                    aria-describedby="basic-addon3">
+            </div>
+        </form>
 
-<div class="header">
-    Students
-    <button type="button" class="btn btn-outline-primary" (click)="showAddStudentSection()">Add New</button>
+    </div>
+
 </div>
 <app-add-student *ngIf="showAddStudent" (reloadStudentList)="reloadStudentList($event)"></app-add-student>
-<app-update-student *ngIf="showUpdateStudent" [student]="student" (reloadStudentList)="reloadStudentList($event)" (closeUpdateWindowReq)="closeUpdateWindowReq($event)"></app-update-student>
+<app-update-student *ngIf="showUpdateStudent" [student]="student" (reloadStudentList)="reloadStudentList($event)"
+    (closeUpdateWindowReq)="closeUpdateWindowReq($event)"></app-update-student>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -29,6 +48,8 @@
             <td>{{student?.address}}</td>
             <td>
                 <button type="button" class="btn btn-primary btn-sm" (click)="editStudent(student)">Edit</button>
+                <button type="button" class="btn btn-secondary btn-sm delete-btn"
+                    (click)="deleteStudent(student)">Delete</button>
             </td>
         </tr>
     </tbody>
