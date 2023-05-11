@@ -57,7 +57,7 @@ const getAllStudentsProcess = async (filter: IStudentFilter = {}): Promise<IStud
         filter.pageNo = filter.pageNo || 1;
         const { name, roll, father, limit, pageNo, sortField, sortOrder } = filter;
         if (name) {
-            queryObj['name'] = name
+            queryObj['name'] = { $regex: `${name}`};
         }
         if (roll) {
             queryObj['roll'] = roll
@@ -91,6 +91,7 @@ const getAllStudentsProcess = async (filter: IStudentFilter = {}): Promise<IStud
             { $sort: sort }
         ])
         console.log("students", students)
+        console.log("queryObj", queryObj)
         return { students, total, limit, pageNo };
     } catch (error) {
         console.log(error);
