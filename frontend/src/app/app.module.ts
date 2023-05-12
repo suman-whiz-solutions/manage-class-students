@@ -12,6 +12,7 @@ import { StudentListComponent } from './students/student-list/student-list.compo
 import { AddStudentComponent } from './students/add-student/add-student.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UpdateStudentComponent } from './students/update-student/update-student.component';
+import { PaginationComponent } from './ui-element/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { UpdateStudentComponent } from './students/update-student/update-student
     ClassesComponent,
     StudentListComponent,
     AddStudentComponent,
-    UpdateStudentComponent
+    UpdateStudentComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,

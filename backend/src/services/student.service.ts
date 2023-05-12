@@ -12,7 +12,7 @@ const addStudentProcess = async (studentData: IStudent): Promise<IStudent | Erro
         await newStudent.save();
         return newStudent;
     } catch (error) {
-        console.log("Add Error",error);
+        console.log("Add Error", error);
         return Error(JSON.stringify(error));
     }
 
@@ -22,7 +22,7 @@ const addStudentProcess = async (studentData: IStudent): Promise<IStudent | Erro
  * @param studentData : IStudent
  * @returns Promise<IStudent | Error | null>
  */
-const updateStudentProcess = async (id: String, studentData: IStudent): Promise<IStudent | Error | null> => {
+const updateStudentProcess = async (id: string, studentData: IStudent): Promise<IStudent | Error | null> => {
     try {
         const updateStudent = await StudentModel.findByIdAndUpdate(id, studentData)
         return updateStudent;
@@ -36,7 +36,7 @@ const updateStudentProcess = async (id: String, studentData: IStudent): Promise<
  * @param classData : IStudent
  * @returns Promise<IStudent | Error | null>
  */
-const deleteStudentProcess = async (id: String): Promise<IStudent | Error | null> => {
+const deleteStudentProcess = async (id: string): Promise<IStudent | Error | null> => {
     try {
         const deleteStudent = await StudentModel.findByIdAndDelete(id)
         return deleteStudent;
@@ -55,15 +55,18 @@ const getAllStudentsProcess = async (filter: IStudentFilter = {}): Promise<IStud
         let sort: any = {};
         filter.limit = filter.limit || 10;
         filter.pageNo = filter.pageNo || 1;
-        const { name, roll, father, limit, pageNo, sortField, sortOrder } = filter;
+        const { name, roll, father, classId, limit, pageNo, sortField, sortOrder } = filter;
         if (name) {
-            queryObj['name'] = { $regex: `${name}`};
+            queryObj['name'] = { '$regex': name, '$options': 'i' };
         }
         if (roll) {
             queryObj['roll'] = roll
         }
         if (father) {
-            queryObj['father'] = father
+            queryObj['father'] = { '$regex': father, '$options': 'i' };
+        }
+        if (classId) {
+            queryObj['classId'] = classId
         }
         if (sortField) {
             sort[sortField.toLowerCase()] = ((sortOrder == IStudentFilterSortOrder.ASC) ? 1 : -1) || 1;
@@ -72,7 +75,7 @@ const getAllStudentsProcess = async (filter: IStudentFilter = {}): Promise<IStud
         }
         let skip = (pageNo - 1) * limit;
         let total = await StudentModel.find(queryObj).count();
-        //let students = await StudentModel.find(queryObj).skip(skip).limit(limit).sort(sort);
+
         let students = await StudentModel.aggregate([
             { $match: queryObj },
             { $addFields: { "classObjectId": { "$toObjectId": "$classId" } } },
@@ -90,8 +93,8 @@ const getAllStudentsProcess = async (filter: IStudentFilter = {}): Promise<IStud
             { $skip: skip },
             { $sort: sort }
         ])
-        console.log("students", students)
-        console.log("queryObj", queryObj)
+        // console.log("students", students)
+        //console.log("queryObj", queryObj)
         return { students, total, limit, pageNo };
     } catch (error) {
         console.log(error);

@@ -22,6 +22,7 @@ export interface IStudentFilter {
     name?: string
     roll?: number
     father?: string
+    classId?:string
     limit?: number
     pageNo?: number
     sortField?: IStudentFilterSortField

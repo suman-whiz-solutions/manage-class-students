@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { IStudent, IStudentFilter, IStudentList } from '../../interfaces/Student';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IStudent, IStudentList } from '../../interfaces/Student';
 import { StudentService } from '../../services/student.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, of, switchMap } from 'rxjs';
+import { AddStudentComponent } from '../add-student/add-student.component';
+import { ClassService } from 'src/app/services/class.service';
+import { IClassList } from 'src/app/interfaces/Class';
 
 @Component({
 	selector: 'app-student-list',
@@ -26,40 +29,68 @@ export class StudentListComponent implements OnInit {
 		father: "",
 	}
 	filterFormGroup: FormGroup = new FormGroup({});
-	constructor(private studentService: StudentService) {
+	sortFormGroup: FormGroup = new FormGroup({});
+	classes: IClassList["classes"] = [];
+
+	constructor(private studentService: StudentService, private classService: ClassService) {
 	}
 
 	ngOnInit(): void {
 		this.getStudentList();
+		this.getClassesList();
 		this.filterFormGroup = new FormGroup({
 			filterBy: new FormControl("", Validators.required),
 			filterValue: new FormControl("", Validators.required)
 		});
+		this.sortFormGroup = new FormGroup({
+			sortBy: new FormControl("", Validators.required),
+			sortOrder: new FormControl("", Validators.required)
+		});
 		this.filterFormGroup.valueChanges.pipe(
-			debounceTime(500),
+			debounceTime(1000),
 			switchMap((id: string) => {
 				let filterBy = this.filterFormGroup.value.filterBy;
 				let filterValue = this.filterFormGroup.value.filterValue;
 				this.filter = {};
 				if (filterBy && filterValue) {
-					this.filter[filterBy] = filterValue;
+					this.filter[filterBy] = (filterBy == 'roll') ? Number(filterValue) : filterValue;
 				}
-				
-				console.log(filterBy,filterValue)
 				return this.studentService.getAllStudents(this.filter);
 			})
 		).subscribe((data) => {
-			console.log("Switch map data", data);
-			if (data && data.total>0) {
+			if (data && data.total > 0) {
 				this.studentList = data;
 			}
-			
+		})
+
+		this.sortFormGroup.valueChanges.pipe(
+			debounceTime(1000),
+			switchMap((id: string) => {
+				let sortBy = this.sortFormGroup.value.sortBy;
+				let sortOrder = this.sortFormGroup.value.sortOrder;
+				delete this.filter.sortField;
+				delete this.filter.sortOrder;
+				if (sortBy && sortOrder) {
+					this.filter["sortField"] = sortBy;
+					this.filter["sortOrder"] = sortOrder;
+				}
+				return this.studentService.getAllStudents(this.filter);
+			})
+		).subscribe((data) => {
+			if (data && data.total > 0) {
+				this.studentList = data;
+			}
 		})
 	}
 
 	async getStudentList(): Promise<void> {
 		this.studentList = await this.studentService.getAllStudents(this.filter);
 	}
+
+	async getClassesList() {
+		let classList = await this.classService.getAllClasses({});
+		this.classes = classList.classes;
+	  }
 
 	showAddStudentSection() {
 		this.showUpdateStudent = false;

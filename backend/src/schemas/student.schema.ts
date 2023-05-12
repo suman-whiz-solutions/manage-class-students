@@ -31,6 +31,7 @@ export const studentSchema = `#graphql
         father:String
         limit:Int
         pageNo:Int
+        classId:String
         sortField:StudentSortField
         sortOrder:StudentSortOrder
     }
