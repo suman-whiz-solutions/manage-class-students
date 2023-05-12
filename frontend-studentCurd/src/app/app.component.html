@@ -1,0 +1,73 @@
+<form class="row g-3">
+  <div class="col-auto">
+    <label for="txtSearch" class="visually-hidden">Search By Brand</label>
+    <input type="text" [(ngModel)]="searchTxt" name="txtSearch" class="form-control" id="txtSearch" placeholder="Search By Brand">
+
+    <select  class="form-control"  id="customFilter" name="customFilter">
+      <option value="email">Email</option>
+      <option value="email">First Name</option>
+      <option value="age">Age</option>
+    </select>
+
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-3" (click)="searchByBrand()">Search</button>
+  </div>
+</form>
+
+<form class="row g-3" >
+  <div class="col-auto">
+    <input type="hidden" class="form-control" [(ngModel)]="gadgetForms.id">
+    
+    <label for="firstName" class="visually-hidden">First Name</label>
+    <input type="text" class="form-control" [(ngModel)]="gadgetForms.firstName" id="firstName" name="firstName" placeholder="First Name" required >
+  </div>
+  <div class="col-auto">
+    <label for="txtlastName" class="visually-hidden">Last Name</label>
+    <input type="text" class="form-control" [(ngModel)]="gadgetForms.lastName" id="txtlastName" name="txtlastName" placeholder="Last Name" required >
+  </div>
+
+  <!-- <div class="col-auto">
+    <label for="txtemail" class="visually-hidden">Email</label>
+    <input type="text" class="form-control" [(ngModel)]="gadgetForms.lastName" id="txtemail" name="txtemail" placeholder="Email" required >
+  </div> -->
+
+
+  <div class="col-auto">
+    <label for="txtage" class="visually-hidden">Age</label>
+    <input type="text" class="form-control" [(ngModel)]="gadgetForms.age" id="txtage" name="txtage" placeholder="Age" required >
+  </div>
+ 
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-3" (click)="newGadget()"  *ngIf="isUpdate">Add</button>
+    <button type="submit" class="btn btn-primary mb-3" (click)="updateRecordStudent()" *ngIf="isUpdate ==false">Update</button>
+  </div>
+</form>
+<!-- For List Code Here -->
+
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let gadget of allStudent">
+      <td>{{gadget.id}}</td>
+      <td>{{gadget.firstName}}</td>
+      <td>{{gadget.lastName}}</td>
+      <td>{{gadget.age}}</td>
+      <td>
+        <button type="button" class="btn btn-primary" (click)="updateRecord(gadget)">Edit</button>
+        &nbsp;&nbsp;
+        <button type="button" class="btn btn-danger" (click)="deleteRecord(gadget.id)">Delete</button>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
