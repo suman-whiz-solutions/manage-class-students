@@ -27,7 +27,7 @@ export class StudentManagementService {
       }
     }`;
     return this.apolloService.query(query, filter).valueChanges
-  } 
+  }
 
   addStudent(foam: any): Observable<any> {
     const query = `mutation Mutation($input: StudentInput!) {
@@ -43,7 +43,26 @@ export class StudentManagementService {
 }`
     return this.apolloService.mutate(query, { input: foam })
   }
-
+  async getAllStudents(filter: any): Promise<any> {
+    const QueryForGetAllStudent = `getAllStudentQuery($filter:StudentFilter){
+      getAllStudents(filter:$filter){
+        total
+        limit
+        pageNo
+        students {
+          id
+          name
+          roll
+          father
+          address
+          dob
+          classId
+        }
+      }
+    }`
+    const result = await this.apolloService.makeQuery(QueryForGetAllStudent).refetch({ filter });
+    return result.data.getAllStudents;
+  }
   updateStudent(updatedfoam: any, id: any): Observable<any> {
     console.log(updatedfoam);
     // {

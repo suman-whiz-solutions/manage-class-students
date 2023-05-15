@@ -10,6 +10,7 @@ import { StudentManagementService } from 'src/app/services/student-management.se
 })
 export class AddStudentComponent {
   newStudentForm: FormGroup;
+  @Output() closeAddFoam: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() getAllStudents: EventEmitter<any> = new EventEmitter<any>();
   classes= [
     {
@@ -69,5 +70,8 @@ export class AddStudentComponent {
     })
        
 
+  }
+  closeAddWindow() {
+    this.closeAddFoam.emit(true);
   }
 }

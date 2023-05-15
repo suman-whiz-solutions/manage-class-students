@@ -9,7 +9,8 @@ import { StudentManagementService } from 'src/app/services/student-management.se
 })
 export class EditStudentComponent {
   updateStudentForm: FormGroup;
-  @Output() closeUpdateWindowReq: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() closeUpdateFoam: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() getAllStudents: EventEmitter<any> = new EventEmitter<any>();
   @Input() student: any;
   classes = [
     {
@@ -66,11 +67,12 @@ export class EditStudentComponent {
   // onNoClick(): void {
   // this.dialogRef.close();
   // }
-  ngOnInit(): void {   
+  ngOnInit(): void {
   }
   updateStudent() {
     this._studentService.updateStudent(this.updateStudentForm.value, this.student.id).subscribe(({ data, loading }) => {
       console.log(data);
+      this.getAllStudents.emit()
       this.updateStudentForm.reset();
       this.closeUpdateWindow();
     })
@@ -87,7 +89,7 @@ export class EditStudentComponent {
   //   this.activeModal.close();
   // }
   closeUpdateWindow() {
-    this.closeUpdateWindowReq.emit(true);
+    this.closeUpdateFoam.emit(true);
   }
 
 }

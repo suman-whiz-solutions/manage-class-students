@@ -3,6 +3,12 @@
         <p>
             <span class="h5">New Student</span>
         </p>
+
+        <div>
+            <button style="float:right; color: red;" class="close-btn cursor-pointer"
+                (click)="closeAddWindow()"><strong>X</strong></button>
+        </div>
+
     </div>
     <form [formGroup]="newStudentForm" (ngSubmit)="addNewStudent()">
         <div class="row">
@@ -42,7 +48,7 @@
             <div class="mx-auto">
                 <button type="submit" class="btn btn-outline-primary" [disabled]="!newStudentForm.valid">Save</button>
             </div>
-            
+
         </div>
     </form>
 
