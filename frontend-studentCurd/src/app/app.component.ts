@@ -85,8 +85,8 @@ export class AppComponent implements OnInit{
   getRecord(){
     this.apollo.watchQuery<any>({
       query: get_Data
-    }).valueChanges.subscribe(({data, loading}) => {
-      this.allStudent= data.students;
+    }).refetch({}).then((response:any)=>{
+      this.allStudent=response.data.students
     })
   }
 
