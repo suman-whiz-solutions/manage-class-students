@@ -1,3 +1,4 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -20,10 +21,8 @@
     "useDefineForClassFields": false,
     "lib": [
       "ES2022",
-      "dom",
-      "esnext.asynciterable"
-    ],
-    "allowSyntheticDefaultImports": true
+      "dom"
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
