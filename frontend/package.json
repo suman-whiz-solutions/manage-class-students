@@ -11,6 +11,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^16.0.0",
+    "@angular/cdk": "^15.2.3",
     "@angular/common": "^16.0.0",
     "@angular/compiler": "^16.0.0",
     "@angular/core": "^16.0.0",
@@ -18,6 +19,15 @@
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
+    "@apollo/client": "^3.0.0",
+    "@ng-select/ng-select": "^10.0.4",
+    "angular-ng-autocomplete": "^2.0.12",
+    "apollo-angular": "^4.2.1",
+    "apollo-angular-link-http": "^1.11.0",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "graphql": "^16.6.0",
+    "graphql-tag": "^2.12.6",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
