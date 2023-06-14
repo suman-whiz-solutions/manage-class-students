@@ -1,0 +1,59 @@
+<div class="new-student">
+    <div class="row">
+        <p>
+            <span class="h5">New Student</span>
+        </p>
+
+        <div>
+            <button style="float:right; color: red;" class="close-btn cursor-pointer"
+                (click)="closeAddWindow()"><strong>X</strong></button>
+        </div>
+
+    </div>
+    <form [formGroup]="newStudentForm" (ngSubmit)="addNewStudent()">
+        <div class="row">
+
+            <div class="col-sm-3 form-group">
+                <label for="exampleFormControlInput1">First Name</label>
+                <input type="text" class="form-control" placeholder="Abcd" formControlName="firstName">
+            </div>
+            <div class="col-sm-3 form-group">
+                <label for="exampleFormControlInput1">Last Name</label>
+                <input type="text" class="form-control" placeholder="Abcd" formControlName="lastName">
+            </div>
+            <div class="col-sm-3 form-group">
+                <label for="exampleFormControlInput1">Father's Name</label>
+                <input type="text" class="form-control" placeholder="Xyz" formControlName="father">
+            </div>
+            <div class="col-sm-3 form-group">
+                <label for="exampleFormControlInput1">Class</label>
+                <select class="form-control" formControlName="classId">
+                    <option value="">--Select Class--</option>
+                    <option *ngFor="let class of classes" [value]="class.id">{{class.name}}</option>
+                </select>
+            </div>
+            <div class="col-sm-2 form-group">
+                <label for="exampleFormControlInput1">Roll No</label>
+                <input type="number" class="form-control" placeholder="01" formControlName="roll">
+            </div>
+            <div class="col-sm-3 form-group">
+                <label for="exampleFormControlInput1">DOB</label>
+                <input type="date" class="form-control" placeholder="" formControlName="dob">
+            </div>
+            <div class="col-sm-3 form-group">
+                <label for="exampleFormControlInput1">Address</label>
+                <input type="text" class="form-control" placeholder="" formControlName="address">
+            </div>
+
+
+
+        </div>
+        <div class="row text-center mt-2">
+            <div class="mx-auto">
+                <button type="submit" class="btn btn-outline-primary" [disabled]="!newStudentForm.valid">Save</button>
+            </div>
+
+        </div>
+    </form>
+
+</div>

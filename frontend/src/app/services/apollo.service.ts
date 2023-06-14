@@ -1,4 +1,4 @@
-import {Apollo, gql } from "apollo-angular";
+import {Apollo, QueryRef, gql } from "apollo-angular";
 import { Injectable } from "@angular/core";
 
 @Injectable({ providedIn: 'root' })
@@ -7,6 +7,11 @@ import { Injectable } from "@angular/core";
   
     constructor(private apollo: Apollo) { }
         
+    makeQuery(queryData: any): QueryRef<any> {
+      return this.apollo.watchQuery({
+        query: gql`query ${queryData}`
+      })
+    }
       query(query: string, variable?: object) {
         return this.apollo.watchQuery({
             query: gql`${query}`,

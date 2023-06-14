@@ -33,7 +33,7 @@ type Query {
 
 type Mutation {
     createStudent(input: StudentInput!): Student
-    updateStudent(input: StudentInput!, update: StudentInput!): Student
+    updateStudent(input: StudentInput!, update: StudentInput): Student
     deleteStudent(input: StudentInput!): Student
   }
 `;

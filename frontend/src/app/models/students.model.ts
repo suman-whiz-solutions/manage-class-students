@@ -12,6 +12,7 @@ export interface IStudent {
     updatedOn?:  Date
 }
 
+
 // for GraphQL queries 
 export const STUDENT_FIELDS = `
     fragment STUDENT_FIELDS on Student {

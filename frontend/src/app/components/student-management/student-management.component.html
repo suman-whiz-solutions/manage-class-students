@@ -1,0 +1,143 @@
+<div class="row">
+    <div class="col-sm-3 ">
+        <button type="button" class="btn btn-outline-primary" (click)="openAddStudentFoam()">ADD</button>
+    </div>
+    <div class="col-sm-3 ">
+        <mat-form-field  style="max-height: 70px;" appearance="fill">
+            <mat-label>Filter By</mat-label>
+            <mat-select [(value)]="selectedFilterKey">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let filter of filterKeys" [value]="filter">{{filter}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col-sm-3 ">
+        <form class="row g-3">
+            <div class="col-auto">
+                <label for="txtSearch" class="visually-hidden">Search By</label>
+                <input type="text" [disabled]="!(selectedFilterKey && selectedFilterKey !== 'null')"
+                    [(ngModel)]="searchedValue" name="txtSearch" class="form-control" id="txtSearch"
+                    placeholder="Search by {{selectedFilterKey}}">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-3" (click)="searchBy()">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- <button type="button" class="btn btn-outline-primary" (click)="openEditStudentFoam()">Edit</button> -->
+
+
+
+<app-add-student *ngIf="toggleAddStudentFoam" (getAllStudents)="refetchStudentDetails()" (closeAddFoam)="closeAddFoam($event)"></app-add-student>
+<app-edit-student [student]="student" (getAllStudents)="refetchStudentDetails()" (closeUpdateFoam)="closeUpdateFoam($event)"
+    *ngIf="toggleEditStudentFoam"></app-edit-student>
+
+<div>
+
+</div>
+
+
+
+
+<!-- <label for="txtSearch" class="visually-hidden">Search By</label>
+  <select id="dropdown1" title="Primary Filter" class="form-control
+  status-list ft-12 pointer max-content
+  text-capitalize" [(ngModel)]="selectedFilterKey" (ngModelChange)="updatePrimaryFilter()" name="select1">
+  <option value="null">Select Filter</option>
+  <option *ngFor="let filter of filterKeys" [ngValue]="filter">{{    filter    }}</option>
+</select> -->
+
+
+<!-- <app-data-table [studenData]="allStudentsData"></app-data-table> -->
+<div  *ngIf="(allStudentsData && allStudentsData.length)" class="mat-elevation-z8">
+    <!-- <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+      </mat-form-field> -->
+    <table mat-table [dataSource]="allStudentsData">
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>S.No</th>
+            <td mat-cell *matCellDef="let element; let i = index">{{i+1}}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.firstName}} {{element.lastName}}</td>
+        </ng-container>
+        <!-- Class ID Column -->
+        <!-- <ng-container matColumnDef="classId">
+        <th mat-header-cell *matHeaderCellDef> Class ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.classId}} </td>
+      </ng-container> -->
+        <!--Roll No  Column -->
+        <ng-container matColumnDef="roll">
+            <th mat-header-cell *matHeaderCellDef>Roll No</th>
+            <td mat-cell *matCellDef="let element"> {{element.roll}} </td>
+        </ng-container>
+
+        <!-- Address Column -->
+        <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef> Address </th>
+            <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+        <!-- DOB Column -->
+        <ng-container matColumnDef="dob">
+            <th mat-header-cell *matHeaderCellDef> D.O.B </th>
+            <td mat-cell *matCellDef="let element"> {{element.dob | date: 'dd/MM/yyyy'}} </td>
+        </ng-container>
+        <!-- Father Column -->
+        <ng-container matColumnDef="father">
+            <th mat-header-cell *matHeaderCellDef> Father Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.father}} </td>
+        </ng-container>
+        <ng-container matColumnDef="icon">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let element">
+                <button type="button" class="btn btn-success btn-sm me-1" (click)="editStudent(element)">Edit</button>
+                <button type="button" class="btn btn-danger btn-sm delete-btn "
+                    (click)="deleteStudent(element)">Delete</button>
+
+                <button class="btn mr-1">
+                    <img [src]="imgSrc.infoIcon" class="cursor-pointer" width="16" height="16" title="Copy ID"
+                        (click)="_commonService.copyToClipboard(element.id)" />
+                </button>
+            </td>
+
+
+
+        </ng-container>
+        <!-- <ng-container matColumnDef="expand">
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button aria-label="expand row"
+                    (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+                    <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                    <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                <div class="example-element-detail"
+                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                </div>
+            </td>
+        </ng-container> -->
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    
+<!-- 
+    <mat-paginator (page)="handlePageEvent($event)" [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page">
+    </mat-paginator> -->
+</div>
+<div style="text-align: center;" *ngIf="!(allStudentsData && allStudentsData.length)">
+    <Strong >No Students Details Found</Strong>
+</div>

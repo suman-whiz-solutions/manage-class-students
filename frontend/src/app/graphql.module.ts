@@ -1,33 +1,24 @@
 import {NgModule} from '@angular/core';
-import {ApolloModule, Apollo} from 'apollo-angular';
-import {InMemoryCache} from '@apollo/client/core';
-import { Router} from '@angular/router';
+import {ApolloModule, APOLLO_OPTIONS} from 'apollo-angular';
+import {ApolloClientOptions, InMemoryCache} from '@apollo/client/core';
 import {HttpLink} from 'apollo-angular/http';
-import { onError } from '@apollo/client/link/error';
-import { HttpErrorResponse } from '@angular/common/http';
-import { StorageService } from './services/storage.service';
 
-const uri = "http://localhost:3000/";
+const uri = "http://localhost:3000/graphQl"; 
+export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
+  return {
+    link: httpLink.create({uri}),
+    cache: new InMemoryCache(),
+  };
+}
 
 @NgModule({
   exports: [ApolloModule],
+  providers: [
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: createApollo,
+      deps: [HttpLink],
+    },
+  ],
 })
-export class GraphQLModule {
-
-  constructor(apollo: Apollo, httpLink: HttpLink,private _storageService: StorageService,private router: Router) {
-
-    const errorLink = onError(({ networkError }) => {
-      const networkErrorRef:HttpErrorResponse = networkError as HttpErrorResponse;
-      if(networkErrorRef && networkErrorRef.status === 404){
-        console.log(networkErrorRef)
-        this.router.navigate(['/']);
-       }
-      
-    });
-    apollo.create({
-      link: errorLink.concat(httpLink.create({ uri: uri})),
-      cache: new InMemoryCache(),
-    });
-  }
-
-}
+export class GraphQLModule {}
