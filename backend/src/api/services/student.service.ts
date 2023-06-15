@@ -15,6 +15,41 @@ const getAllStudentFunction = async () => {
     });
 };
 
+
+const getAllStudentFunctionByFilter = async ({ filter = {}, limit, page, sort = {} }: IStudentsArgs) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const query = Student.find();
+            if (filter.firstName) {
+                query.where("firstName").equals(filter.firstName);
+            } else if (filter.roll) {
+                query.where("roll").equals(filter.roll);
+            } 
+
+            if (sort.field) {
+                const sortField = sort.field.toLowerCase();
+                const sortDirection = sort.direction === SortDirection.ASC ? 1 : -1;
+                query.sort({ [sortField]: sortDirection });
+            }
+
+            const count = await Student.countDocuments(query);
+            const students = await query.exec();
+            if (!students) {
+                resolve(students);
+            }
+
+            const metadata = {
+                count,
+                limit,
+                page,
+            };
+            resolve(students);
+        } catch (err) {
+            reject(`Error occured: ${err}`);
+        }
+    });
+};
+
 const getStudentByIdFunction = async (filter: object) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -67,6 +102,7 @@ const deleteStudentFunction = async (filter: object) => {
 
 const studentService = {
     getAllStudents: getAllStudentFunction,
+    getAllStudentsByFilter: getAllStudentFunctionByFilter,
     getStudentById: getStudentByIdFunction,
     createNewStudent: createStudentFunction,
     updateStudent: updateStudentFunction,

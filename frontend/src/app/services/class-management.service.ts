@@ -10,19 +10,14 @@ export class ClassManagementService {
 
   getClasses(): Observable<any>{
     const query = `    
-    query getAllClassesQuery($filter: ClassFilter) {
-      getAllClasses(filter: $filter) {
-      total
-      limit
-      pageNo
-      classes {
-        id
-        name
-        head
-        floor
+    query Query {
+      getClasses {
+        _id
+        class
+        createdOn
+        updatedOn
       }
-      }
-        }  
+    }  
     `;
     return this._apolloService.query(query).valueChanges
 

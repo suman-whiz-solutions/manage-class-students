@@ -1,4 +1,5 @@
 import studentService from '../services/student.service';
+import { IStudentsArgs } from 'api/interfaces/Student';
 interface StudentInterface {
     classId?: string
     class?: string
@@ -12,11 +13,19 @@ interface StudentInterface {
     updatedOn?:  Date
 }
 
-const getStudentsFunction = async () => {
+// const getStudentsFunction = async () => {
+//     try {
+//         return await studentService.getAllStudents();
+//     } catch(err) {
+//         return { student: null, message: `Error occured: ${err}`, success: false, statusCode: 400 };
+//     }
+// };
+
+const getStudentsFunction = async (_: any, args: IStudentsArgs) => {
     try {
-        return await studentService.getAllStudents();
-    } catch(err) {
-        return { student: null, message: `Error occured: ${err}`, success: false, statusCode: 400 };
+        return await studentService.getAllStudentsByFilter(args);
+    } catch (err) {
+        return { students: null, message: `Error occured: ${err}`, success: false, statusCode: 400 };
     }
 };
 

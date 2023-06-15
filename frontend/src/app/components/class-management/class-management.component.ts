@@ -10,7 +10,7 @@ import { CommonService } from 'src/app/services/common.service';
 })
 export class ClassManagementComponent {
   allClassesData: any=[];
-  displayedColumns: string[] = ['id', 'name',  'head','floor',"icon"];
+  displayedColumns: string[] = ['id', 'name', "icon"];
   imgSrc: any = {
     infoIcon:'../assets/images/info.svg'
   }
@@ -23,7 +23,7 @@ export class ClassManagementComponent {
   getAllClasses() {
     this._classService.getClasses().subscribe(({ data, loading }) => {
       console.log(loading);
-      this.allClassesData=data.getAllClasses.classes;
+      this.allClassesData=data.getClasses;
     })
   }
   handlePageEvent(event: PageEvent) {

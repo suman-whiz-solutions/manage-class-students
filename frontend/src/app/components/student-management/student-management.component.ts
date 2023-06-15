@@ -39,7 +39,7 @@ export class StudentManagementComponent {
   toggleEditStudentFoam = false;
   expandedElement = null
   selectedFilterKey: any
-  filterKeys = ['name',"roll"]
+  filterKeys = ['firstName',"roll"]
   ngAfterViewInit() {
     //  this.allStudents.paginator = this.paginator;
   }
@@ -57,12 +57,12 @@ export class StudentManagementComponent {
     if(this.selectedFilterKey=='roll'){
       this.searchedValue= +this.searchedValue
     }
-    this._studentService.getAllStudents().then((data) => {
+    this._studentService.getAllStudents({ [this.selectedFilterKey]: this.searchedValue }).then((data) => {
       this.allStudentsData = data.students;
     })
   }
-refetchStudentDetails(){
-  this._studentService.getAllStudents().then((data) => {
+refetchStudentDetails(filter?: any){
+  this._studentService.getAllStudents(filter).then((data) => {
     console.log(data)
     this.allStudentsData = data.students;
   })

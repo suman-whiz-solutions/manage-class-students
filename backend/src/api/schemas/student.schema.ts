@@ -1,5 +1,19 @@
 export const studentSchema = `#graphql
 scalar Date
+
+input StudentFilter {
+    classId:String
+    class:String
+    firstName: String
+    lastName: String
+    roll:Int
+    father:String
+    address:String
+    dob:Date    
+    createdOn: Date
+    updatedOn: Date
+}
+
 type Student {
     _id:ID
     classId:String
@@ -26,9 +40,26 @@ input StudentInput {
     updatedOn: Date
 }
 
+enum StudentSortField {
+    FIRSTNAME
+    LASTNAME
+    ROLL
+  }
+
+  enum SortDirection {
+    ASC
+    DESC
+  }
+
+  input StudentSort {
+    field: StudentSortField!
+    direction: SortDirection!
+  }
+
 type Query {
     getStudents: [Student],
-    getStudent(input: StudentInput!): Student
+    getStudent(filter: StudentFilter,input: StudentInput!): Student
+    getStudentsByFilter(filter: StudentFilter, limit: Int, page: Int, sort: StudentSort): Student!
 }
 
 type Mutation {

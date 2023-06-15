@@ -11,20 +11,19 @@ export class StudentManagementService {
 
   getStudents(): Observable<any> {
     console.log("getStudents called");
-    const query = `query {
-      getStudents{
-        
-          classId
-          class
-          firstName
-          lastName
-          roll
-          father
-          address
-          dob    
-          createdOn
-          updatedOn
-        
+    const query = `query GetStudents {
+      getStudents {
+        _id
+        classId
+        class
+        firstName
+        lastName
+        roll
+        father
+        address
+        dob
+        createdOn
+        updatedOn
       }
     }`;
     console.log("query: ", query);
@@ -46,9 +45,9 @@ export class StudentManagementService {
 }`
     return this.apolloService.mutate(query, { input: foam })
   }
-  async getAllStudents(): Promise<any> {
-    const QueryForGetAllStudent = `query {
-      getStudents{
+  async getAllStudents(filter: any): Promise<any> {
+    const QueryForGetAllStudent = `query{
+      getStudents(filter: StudentFilter){
         
           classId
           class

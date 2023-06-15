@@ -1,38 +1,29 @@
 
   <button type="button" class="btn btn-outline-primary" (click)="openAddClassFoam()" >ADD</button>
   <button type="button" class="btn btn-outline-primary" (click)="openEditClassFoam()" >Edit</button>
+  
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="allClassesData">
   
       <!-- ID Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> ID. </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        <td mat-cell *matCellDef="let element"> {{element['_id']}} </td>
       </ng-container>
   
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.class}} </td>
       </ng-container>
      
-      <!--Head  Column -->
-      <ng-container matColumnDef="head">
-        <th mat-header-cell *matHeaderCellDef>Head</th>
-        <td mat-cell *matCellDef="let element"> {{element.head}} </td>
-      </ng-container>
-  
-      <!-- Floor Column -->
-      <ng-container matColumnDef="floor">
-        <th mat-header-cell *matHeaderCellDef> Floor </th>
-        <td mat-cell *matCellDef="let element"> {{element.floor}} </td>
-      </ng-container>   
+       
       <ng-container matColumnDef="icon">
         <th mat-header-cell *matHeaderCellDef> </th>
 
         <td mat-cell *matCellDef="let element"> <button class="btn mr-1" >
                 <img [src]="imgSrc.infoIcon" class="cursor-pointer" width="16" height="16" title="Copy ID"
-                    (click)="_commonService.copyToClipboard(element.id)" />
+                    (click)="_commonService.copyToClipboard(element['_id'])" />
             </button> </td>
     </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
