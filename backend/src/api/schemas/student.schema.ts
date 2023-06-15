@@ -65,7 +65,7 @@ type StudentList {
 type Query {
     getStudents: [Student],
     getStudent(filter: StudentFilter,input: StudentInput!): Student
-    getStudentsByFilter(filter: StudentFilter): Student
+    getStudentsByFilter(filter: StudentFilter): [Student]
 }
 
 type Mutation {

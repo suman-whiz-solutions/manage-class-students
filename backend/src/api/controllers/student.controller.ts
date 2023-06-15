@@ -21,11 +21,15 @@ const getStudentsFunction = async () => {
     }
 };
 
-const getStudentsFunctionByFilter = async (parent: any, args: any) => {
+const getStudentsFunctionByFilter = async (_: any, args: any) => {
+    console.log(args);
     try {
-        let students = await studentService.getAllStudentsByFilter(args.filter);
-        console.log("students: ", students);
-        return students;
+        const student =  await studentService.getAllStudentsByFilter(args.filter);
+    if (!student) {
+        throw new Error('Student not found');
+    }
+    console.log("student: ", student);
+    return student;
     } catch (err) {
         return { student: null, message: `Error occured: ${err}`, success: false, statusCode: 400 };
     }

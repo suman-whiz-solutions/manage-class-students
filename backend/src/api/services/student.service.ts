@@ -25,11 +25,11 @@ const getAllStudentFunctionByFilter = async (filter: IStudentsFilter = {}) => {
                 } else if (filter.roll) {
                     query.where("roll").equals(filter.roll);
                 }
-                const students = await query.exec();
-                if (!students) {
-                    resolve({ students, message: `student not found`, success: false, statusCode: 404 });
+                const student = await query.exec();
+                if (!student) {
+                    resolve({ student, message: `Student not found for ${filter}`, success: false, statusCode: 404 });
                 }
-                resolve(students);
+                resolve(student);
         } catch (error) {
             return Error(JSON.stringify(error));
         }

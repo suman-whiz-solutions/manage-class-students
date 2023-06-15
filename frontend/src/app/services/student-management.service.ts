@@ -10,8 +10,7 @@ export class StudentManagementService {
   constructor(private apolloService: ApolloService) { }
 
   getStudents(): Observable<any> {
-    console.log("getStudents called");
-    const query = `query GetStudents {
+   const query = `query GetStudents {
       getStudents {
         _id
         classId
@@ -26,15 +25,12 @@ export class StudentManagementService {
         updatedOn
       }
     }`;
-    console.log("query: ", query);
     return this.apolloService.query(query).valueChanges
   }
 
   
   async getAllStudents(filter: any){
-    console.log("getAllStudents called", filter);
-
-    const QueryForGetAllStudent = `query GetStudentsByFilter($filter: StudentFilter) {
+    const QueryForGetAllStudent = `query ($filter: StudentFilter) {
       getStudentsByFilter(filter: $filter) {
         _id
         classId
@@ -49,10 +45,9 @@ export class StudentManagementService {
         updatedOn
       }
     }`
-
-    const result = await this.apolloService.makeQuery(QueryForGetAllStudent).refetch();
-    console.log("result : ", result)
-    // return result;
+    
+    const result = await this.apolloService.query(QueryForGetAllStudent, { filter: filter }).refetch();
+    return result;
   }
 
   addStudent(foam: any): Observable<any> {
@@ -94,6 +89,7 @@ export class StudentManagementService {
     }
     return this.apolloService.mutate(query, variable)
   }
+
   deleteStudentById(id: object): Observable<any> {
     const query = `mutation DeleteStudent($input: StudentInput!) {
       deleteStudent(input: $input) {
