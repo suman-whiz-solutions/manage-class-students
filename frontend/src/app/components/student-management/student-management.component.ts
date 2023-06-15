@@ -93,8 +93,11 @@ export class StudentManagementComponent {
   }
 
   deleteStudent(student: any) {
-    if (confirm(`Do you want to delete ${student.name}'s record`)) {
-      this._studentService.deleteStudentById(student.id).subscribe(({ data, loading }) => {
+    let filterStudent = {
+      "classId": student.classId
+    }
+    if (confirm(`Do you want to delete ${student.firstName}'s record`)) {
+      this._studentService.deleteStudentById(filterStudent).subscribe(({ data, loading }) => {
         this._commonService.showSuccess();
         this.refetchStudentDetails();
       })
