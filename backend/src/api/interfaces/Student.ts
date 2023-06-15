@@ -48,7 +48,7 @@ export interface IStudentsArgs {
 
 
 export interface IStudentsFilter {
-    name?: string
+    firstName?: string
     roll?: number
     father?: string
     limit?: number
@@ -68,7 +68,5 @@ export enum IStudentFilterSortField {
 
 export interface IStudentList {
     students: IStudent[]
-    total: number
-    limit: number
-    pageNo: number
+    
 }

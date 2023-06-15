@@ -21,22 +21,16 @@ const getStudentsFunction = async () => {
     }
 };
 
-// const getStudentsFunction = async (_: any, args: IStudentsArgs) => {
-//     try {
-//         return await studentService.getAllStudentsByFilter(args);
-//     } catch (err) {
-//         return { students: null, message: `Error occured: ${err}`, success: false, statusCode: 400 };
-//     }
-// };
-
-const getStudentsFunctionByFilter = async (parent: any, args: any): Promise<IStudentList | Error> => {
+const getStudentsFunctionByFilter = async (parent: any, args: any) => {
     try {
-        const students = await studentService.getAllStudentsByFilter(args.filter);
+        let students = await studentService.getAllStudentsByFilter(args.filter);
+        console.log("students: ", students);
         return students;
-    } catch (error) {
-        return Error(JSON.stringify(error));
+    } catch (err) {
+        return { student: null, message: `Error occured: ${err}`, success: false, statusCode: 400 };
     }
 };
+
 
 const getStudentFunction = async (_: any, filter: any) => {
     try {

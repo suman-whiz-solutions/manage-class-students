@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { ApolloService } from './apollo.service';
 
 @Injectable({
@@ -30,49 +30,47 @@ export class StudentManagementService {
     return this.apolloService.query(query).valueChanges
   }
 
+  
+  async getAllStudents(filter: any){
+    console.log("getAllStudents called", filter);
+
+    const QueryForGetAllStudent = `query GetStudentsByFilter($filter: StudentFilter) {
+      getStudentsByFilter(filter: $filter) {
+        _id
+        classId
+        class
+        firstName
+        lastName
+        roll
+        father
+        address
+        dob
+        createdOn
+        updatedOn
+      }
+    }`
+
+    const result = await this.apolloService.makeQuery(QueryForGetAllStudent).refetch();
+    console.log("result : ", result)
+    // return result;
+  }
+
   addStudent(foam: any): Observable<any> {
     const query = `mutation Mutation($input: StudentInput!) {
-    createStudent(input: $input) {
-    address
-    classId
-    father
-    _id
-    dob
-    firstName
-    lastName
-    roll
-  }
-}`
+        createStudent(input: $input) {
+        address
+        classId
+        father
+        _id
+        dob
+        firstName
+        lastName
+        roll
+      }
+    }`
     return this.apolloService.mutate(query, { input: foam })
   }
 
-  
-  async getAllStudents(filter: any): Promise<any> {
-    console.log("getAllStudents called")
-    const QueryForGetAllStudent = `query {
-      getStudentsByFilter(filter: filter) {
-        students {
-          _id
-            classId
-            class
-            firstName
-            lastName
-            roll
-            father
-            address
-            dob
-            createdOn
-            updatedOn
-        }
-        total
-        limit
-        pageNo
-      }
-    }`
-    const result = await this.apolloService.makeQuery(QueryForGetAllStudent).refetch();
-    console.log("result : ", result)
-    return result.data.getStudents;
-  }
   updateStudent(updatedfoam: any, id: any): Observable<any> {
     console.log(updatedfoam, id);
     const query = ` mutation UpdateStudent($input: StudentInput!, $update: StudentInput) {

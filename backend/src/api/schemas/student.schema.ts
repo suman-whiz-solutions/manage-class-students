@@ -59,15 +59,13 @@ enum StudentSortField {
   
 type StudentList {
   students:[Student!]!
-  total:Int!
-  limit:Int!
-  pageNo:Int!
+  
 }
 
 type Query {
     getStudents: [Student],
     getStudent(filter: StudentFilter,input: StudentInput!): Student
-    getStudentsByFilter(filter: StudentFilter): StudentList
+    getStudentsByFilter(filter: StudentFilter): Student
 }
 
 type Mutation {

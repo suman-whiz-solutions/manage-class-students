@@ -47,9 +47,8 @@ export class StudentManagementComponent {
     this.getAllStudents();
   }
   getAllStudents() {
-    console.log("getAllStudents called")
     this._studentService.getStudents().subscribe(({ data, loading }) => {
-      console.log(data);
+      console.log(loading);
       this.allStudentsData = data.getStudents;
     })
   }
@@ -58,13 +57,12 @@ export class StudentManagementComponent {
       this.searchedValue= +this.searchedValue
     }
     this._studentService.getAllStudents({ [this.selectedFilterKey]: this.searchedValue }).then((data) => {
-      this.allStudentsData = data.students;
+      this.allStudentsData = data;
     })
   }
 refetchStudentDetails(filter?: any){
   this._studentService.getAllStudents(filter).then((data) => {
-    console.log(data)
-    this.allStudentsData = data.students;
+    this.allStudentsData = data;
   })
 }
   handlePageEvent(event: PageEvent) {
@@ -91,11 +89,8 @@ refetchStudentDetails(filter?: any){
     this.toggleEditStudentFoam = true;
   }
   deleteStudent(student: any) {
-    if (confirm(`Do you want to delete ${student.firstName} ${student.lastName}'s record`)) {
-      let filterStudent = {
-        "classId": student.classId
-      }
-      this._studentService.deleteStudentById(filterStudent).subscribe(({ data, loading }) => {
+    if (confirm(`Do you want to delete ${student.name}'s record`)) {
+      this._studentService.deleteStudentById(student.id).subscribe(({ data, loading }) => {
         this._commonService.showSuccess();
         this.refetchStudentDetails();
       })
