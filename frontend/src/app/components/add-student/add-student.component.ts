@@ -67,7 +67,8 @@ export class AddStudentComponent {
     this._studentService.addStudent(this.newStudentForm.value).subscribe(({ data, loading }) => {
       console.log(data);
       this.newStudentForm.reset();  
-      this.getAllStudents.emit();    
+      this.getAllStudents.emit();  
+      this.closeAddWindow();  
     })
        
 
