@@ -63,8 +63,8 @@ export class StudentManagementComponent {
   }
 
   refetchStudentDetails(filter?: any){
-    this._studentService.getAllStudents(filter).then((data) => {
-      this.allStudentsData = data;
+    this._studentService.getAllStudents(filter).then(({data, loading}: any) => {
+      this.allStudentsData = data.getStudentsByFilter;
     })
   }
 

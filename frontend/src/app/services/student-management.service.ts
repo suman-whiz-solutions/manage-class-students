@@ -29,7 +29,7 @@ export class StudentManagementService {
   }
 
   
-  async getAllStudents(filter: any){
+  async getAllStudents(filter?: any){
     const QueryForGetAllStudent = `query ($filter: StudentFilter) {
       getStudentsByFilter(filter: $filter) {
         _id
