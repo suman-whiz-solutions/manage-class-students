@@ -56,10 +56,18 @@ enum StudentSortField {
     direction: SortDirection!
   }
 
+  
+type StudentList {
+  students:[Student!]!
+  total:Int!
+  limit:Int!
+  pageNo:Int!
+}
+
 type Query {
     getStudents: [Student],
     getStudent(filter: StudentFilter,input: StudentInput!): Student
-    getStudentsByFilter(filter: StudentFilter, limit: Int, page: Int, sort: StudentSort): Student!
+    getStudentsByFilter(filter: StudentFilter): StudentList
 }
 
 type Mutation {

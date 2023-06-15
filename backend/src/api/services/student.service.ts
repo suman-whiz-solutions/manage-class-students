@@ -1,4 +1,4 @@
-import { IStudent, IStudentsArgs, SortDirection } from '../interfaces/Student';
+import { IStudent, IStudentsArgs, IStudentsFilter, SortDirection, IStudentFilterSortOrder, IStudentList} from '../interfaces/Student';
 import Student from '../models/student.model';
 
 const getAllStudentFunction = async () => {
@@ -15,40 +15,70 @@ const getAllStudentFunction = async () => {
     });
 };
 
-
-const getAllStudentFunctionByFilter = async ({ filter = {}, limit, page, sort = {} }: IStudentsArgs) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const query = Student.find();
-            if (filter.firstName) {
-                query.where("firstName").equals(filter.firstName);
-            } else if (filter.roll) {
-                query.where("roll").equals(filter.roll);
-            } 
-
-            if (sort.field) {
-                const sortField = sort.field.toLowerCase();
-                const sortDirection = sort.direction === SortDirection.ASC ? 1 : -1;
-                query.sort({ [sortField]: sortDirection });
-            }
-
-            const count = await Student.countDocuments(query);
-            const students = await query.exec();
-            if (!students) {
-                resolve(students);
-            }
-
-            const metadata = {
-                count,
-                limit,
-                page,
-            };
-            resolve(students);
-        } catch (err) {
-            reject(`Error occured: ${err}`);
+const getAllStudentFunctionByFilter = async (filter: IStudentsFilter = {}): Promise<IStudentList | Error> => {
+    try {
+        
+        let queryObj: any = {};
+        let sort: any = {};
+        filter.limit = filter.limit || 10;
+        filter.pageNo = filter.pageNo || 1;
+        const { name, roll, father, limit, pageNo, sortField, sortOrder } = filter;
+        if (name) {
+            queryObj['name'] = name
         }
-    });
-};
+        if (roll) {
+            queryObj['roll'] = roll
+        }
+        if (father) {
+            queryObj['father'] = father
+        }
+        if (sortField) {
+            sort[sortField.toLowerCase()] = ((sortOrder==IStudentFilterSortOrder.ASC)?1:-1) || 1;
+        }
+        let skip = (pageNo - 1) * limit;
+        let total = await Student.find(queryObj).count();
+        let students = await Student.find(queryObj).skip(skip).limit(limit).sort(sort);
+        console.log(students, queryObj)
+        return { students, total, limit, pageNo };
+    } catch (error) {
+        return Error(JSON.stringify(error));
+    }
+}
+
+
+// const getAllStudentFunctionByFilter = async (filter: IStudentsFilter = {}) => {
+//     return new Promise(async (resolve, reject) => {
+//         try {
+//             const query = Student.find();
+//             if (filter.firstName) {
+//                 query.where("firstName").equals(filter.firstName);
+//             } else if (filter.roll) {
+//                 query.where("roll").equals(filter.roll);
+//             } 
+
+//             if (sort.field) {
+//                 const sortField = sort.field.toLowerCase();
+//                 const sortDirection = sort.direction === SortDirection.ASC ? 1 : -1;
+//                 query.sort({ [sortField]: sortDirection });
+//             }
+
+//             const count = await Student.countDocuments(query);
+//             const students = await query.exec();
+//             if (!students) {
+//                 resolve(students);
+//             }
+
+//             const metadata = {
+//                 count,
+//                 limit,
+//                 page,
+//             };
+//             resolve(students);
+//         } catch (err) {
+//             reject(`Error occured: ${err}`);
+//         }
+//     });
+// };
 
 const getStudentByIdFunction = async (filter: object) => {
     return new Promise(async (resolve, reject) => {

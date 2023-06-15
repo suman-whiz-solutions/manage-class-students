@@ -45,3 +45,30 @@ export interface IStudentsArgs {
     page?: number;
     sort?: IStudentSort;
 }
+
+
+export interface IStudentsFilter {
+    name?: string
+    roll?: number
+    father?: string
+    limit?: number
+    pageNo?: number
+    sortField?: IStudentFilterSortField
+    sortOrder?: IStudentFilterSortOrder
+}
+export enum IStudentFilterSortOrder {
+    ASC="ASC",
+    DESC="DESC"
+}
+export enum IStudentFilterSortField {
+    NAME="name",
+    ROLL="roll",
+    DOB="dob"
+}
+
+export interface IStudentList {
+    students: IStudent[]
+    total: number
+    limit: number
+    pageNo: number
+}

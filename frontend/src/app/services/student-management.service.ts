@@ -45,21 +45,28 @@ export class StudentManagementService {
 }`
     return this.apolloService.mutate(query, { input: foam })
   }
+
+  
   async getAllStudents(filter: any): Promise<any> {
-    const QueryForGetAllStudent = `query{
-      getStudents(filter: StudentFilter){
-        
-          classId
-          class
-          firstName
-          lastName
-          roll
-          father
-          address
-          dob    
-          createdOn
-          updatedOn
-        
+    console.log("getAllStudents called")
+    const QueryForGetAllStudent = `query {
+      getStudentsByFilter(filter: filter) {
+        students {
+          _id
+            classId
+            class
+            firstName
+            lastName
+            roll
+            father
+            address
+            dob
+            createdOn
+            updatedOn
+        }
+        total
+        limit
+        pageNo
       }
     }`
     const result = await this.apolloService.makeQuery(QueryForGetAllStudent).refetch();
